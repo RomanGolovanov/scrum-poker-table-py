@@ -54,19 +54,20 @@
         $scope.$on("$destroy", function () { disposed = true; });
 
         function updateDeskAsync(){
-            timeout = $scope.desk ? 10 : null;
-            modified = $scope.desk ? $scope.desk.modified : null;
+            var defaultTimeout = 1000;
+            var timeout = $scope.desk ? 10 : null;
+            var modified = $scope.desk ? $scope.desk.modified : null;
             deskService.get($scope.desk_id, modified, timeout).then(function(desk){
                 $scope.desk = desk;
                 $scope.desk_report = createDeskReport(desk);
 
-                if(!disposed) $timeout(updateDeskAsync, 10);
+                if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
 
             }, function(response){
                 if(response.status === 304){
-                    if(!disposed) $timeout(updateDeskAsync, 10);
+                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
                 }else{
-                    if(!disposed) $timeout(updateDeskAsync, 1000);
+                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
                 }
             });
         }

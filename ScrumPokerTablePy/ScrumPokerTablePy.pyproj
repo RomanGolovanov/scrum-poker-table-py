@@ -18,8 +18,10 @@
     <PythonWsgiHandler>$(MSBuildProjectName).app</PythonWsgiHandler>
     <Name>ScrumPokerTablePy</Name>
     <RootNamespace>ScrumPokerTablePy</RootNamespace>
-    <InterpreterId>{2c1a7a27-ef0c-40a7-8302-77a780bb7ab4}</InterpreterId>
-    <InterpreterVersion>3.5</InterpreterVersion>
+    <InterpreterId>{c2269467-009b-4c31-aa96-273501549884}</InterpreterId>
+    <InterpreterVersion>3.4</InterpreterVersion>
+    <NameOfLastUsedPublishProfile>scrum-desk-demo - Web Deploy</NameOfLastUsedPublishProfile>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -80,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
+    <None Include="scrum-desk-demo-test - Web Deploy.pubxml" />
+    <None Include="scrum-desk-demo - Web Deploy.pubxml" />
     <Content Include="ScrumPokerTablePy\static\app\about\about.html" />
     <Content Include="ScrumPokerTablePy\static\app\app.css" />
     <Content Include="ScrumPokerTablePy\static\app\app.js" />
@@ -960,10 +964,10 @@
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
-      <Id>{2c1a7a27-ef0c-40a7-8302-77a780bb7ab4}</Id>
+      <Id>{c2269467-009b-4c31-aa96-273501549884}</Id>
       <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
-      <Version>3.5</Version>
-      <Description>env (Python 3.5)</Description>
+      <Version>3.4</Version>
+      <Description>env (Python 3.4)</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <LibraryPath>Lib\</LibraryPath>

@@ -23,10 +23,10 @@
                 var config = {
                     headers:{}
                 };
-                if(timeout) {
-                    config.headers["X-Polling-Timeout"] = timeout;
-                    config.timeout = timeout * 1200;
-                }
+                //if(timeout) {
+                //    config.headers["X-Polling-Timeout"] = timeout;
+                //    config.timeout = timeout * 1200;
+                //}
                 if(modified) config.headers["X-Modified"] = modified;
 
                 return $http
