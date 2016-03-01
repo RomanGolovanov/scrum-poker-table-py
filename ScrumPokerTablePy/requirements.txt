@@ -1,0 +1,5 @@
+Flask<1
+Flask-SQLAlchemy
+Flask-Restful
+SqlAlchemy_utils
+
