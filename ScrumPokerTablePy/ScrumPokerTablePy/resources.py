@@ -76,7 +76,7 @@ class GameDesk(Resource):
         timeout = args['timeout']
         desk = get_desk(desk_id)
 
-        if desk.modified == modified:
+        if desk.modified == modified and timeout is not None:
             if not events.receive(desk_id, timeout):
                 return '', 304
 
