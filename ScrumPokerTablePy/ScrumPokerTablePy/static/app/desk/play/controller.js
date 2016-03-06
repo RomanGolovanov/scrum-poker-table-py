@@ -25,26 +25,38 @@
             $location.path("/desk/history/" + $scope.desk_id );
         }
 
-        var disposed = false;
-        $scope.$on("$destroy", function () { disposed = true; });
+        $scope.$on("desk", function (event, desk) {
+            console.log(event, desk);
+            $scope.desk = desk;
+        });
+        deskService.get($scope.desk_id).then(function (desk) {
+            $scope.desk = desk;
+        });
 
-        function updateDeskAsync() {
-            var defaultTimeout = 1000;
-            var timeout = $scope.desk ? 10 : null;
-            var modified = $scope.desk ? $scope.desk.modified : null;
-            deskService.get($scope.desk_id, modified, timeout).then(function(desk){
-                $scope.desk = desk;
-                if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
 
-            }, function(response){
-                if(response.status === 304){
-                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
-                }else{
-                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
-                }
-            });
-        }
-        updateDeskAsync();
+        $scope.$on("$destroy", function () {
+            deskService.leave();
+        });
+
+        deskService.join($scope.desk_id);
+
+        //function updateDeskAsync() {
+        //    var defaultTimeout = 1000;
+        //    var timeout = $scope.desk ? 10 : null;
+        //    var modified = $scope.desk ? $scope.desk.modified : null;
+        //    deskService.get($scope.desk_id, modified, timeout).then(function(desk){
+        //        $scope.desk = desk;
+        //        if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
+
+        //    }, function(response){
+        //        if(response.status === 304){
+        //            if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
+        //        }else{
+        //            if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
+        //        }
+        //    });
+        //}
+        //updateDeskAsync();
     }])
   ;
 })();

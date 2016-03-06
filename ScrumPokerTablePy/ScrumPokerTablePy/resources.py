@@ -3,8 +3,12 @@ import time
 
 from flask_restful import Resource, abort, reqparse
 
-from ScrumPokerTablePy import db, events
+from ScrumPokerTablePy import db, socketio
 from ScrumPokerTablePy.models import GameDeskEntity, PlayerEntity, GameDeskStateEnum, GameDeskHistoryEntity
+
+def notifyDeskChanged(desk):
+    namespace = '/desks/' + desk.desk_id
+    socketio.emit('message', { "desk_id": desk.desk_id }, namespace=namespace, broadcast=True)
 
 
 def return_desk(desk):
@@ -48,7 +52,7 @@ class GameDeskFinish(Resource):
         desk.modified = time.time()
         db.session.commit()
         store_desk_history(desk)
-        events.send(desk_id)
+        notifyDeskChanged(desk)
         return '', 200
 
 
@@ -60,7 +64,7 @@ class GameDeskStart(Resource):
         for p in desk.players.all():
             p.card = None
         db.session.commit()
-        events.send(desk_id)
+        notifyDeskChanged(desk)
         return '', 200
 
 
@@ -75,11 +79,6 @@ class GameDesk(Resource):
         modified = args['modified']
         timeout = args['timeout']
         desk = get_desk(desk_id)
-
-        if desk.modified == modified and timeout is not None:
-            if not events.receive(desk_id, timeout):
-                return '', 304
-
         return return_desk(desk)
 
     @staticmethod
@@ -88,7 +87,7 @@ class GameDesk(Resource):
         db.session.delete(desk)
         GameDeskHistoryEntity.query.filter_by(desk_id=desk_id).delete()
         db.session.commit()
-        events.send(desk_id)
+        notifyDeskChanged(desk)
         return '', 200
 
 
@@ -132,7 +131,7 @@ class Player(Resource):
         desk = get_desk(desk_id)
 
         self.create_player(desk, player_name)
-        events.send(desk_id)
+        notifyDeskChanged(desk)
         return '', 200
 
     def put(self, desk_id, player_name):
@@ -148,7 +147,7 @@ class Player(Resource):
         self.pre_update_trigger(desk, card)
         self.update_player(desk, player_name, card)
         self.post_update_trigger(desk)
-        events.send(desk_id)
+        notifyDeskChanged(desk)
         return '', 200
 
     @staticmethod

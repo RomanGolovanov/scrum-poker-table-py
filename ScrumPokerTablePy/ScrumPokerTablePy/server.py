@@ -1,6 +1,8 @@
 import os
+import time
+from threading import Thread
 
-from ScrumPokerTablePy import api, app, db
+from ScrumPokerTablePy import api, app, db, thread, socketio
 from ScrumPokerTablePy.resources import GameDeskList, GameDesk, Player, GameDeskStart, GameDeskFinish, GameDeskHistory
 
 api.add_resource(GameDeskList, '/api/desk')

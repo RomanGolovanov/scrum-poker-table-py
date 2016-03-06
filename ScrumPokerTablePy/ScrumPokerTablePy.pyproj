@@ -20,7 +20,7 @@
     <RootNamespace>ScrumPokerTablePy</RootNamespace>
     <InterpreterId>{c2269467-009b-4c31-aa96-273501549884}</InterpreterId>
     <InterpreterVersion>3.4</InterpreterVersion>
-    <NameOfLastUsedPublishProfile>scrum-desk-demo - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>scrum-desk-demo-test - Web Deploy</NameOfLastUsedPublishProfile>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -35,7 +35,6 @@
     <Compile Include="runserver.py" />
     <Compile Include="ScrumPokerTablePy\config.py" />
     <Compile Include="ScrumPokerTablePy\models.py" />
-    <Compile Include="ScrumPokerTablePy\queue.py" />
     <Compile Include="ScrumPokerTablePy\resources.py" />
     <Compile Include="ScrumPokerTablePy\server.py" />
     <Compile Include="ScrumPokerTablePy\__init__.py" />
@@ -76,14 +75,15 @@
     <Folder Include="ScrumPokerTablePy\static\components\font-awesome\css\" />
     <Folder Include="ScrumPokerTablePy\static\components\font-awesome\fonts\" />
     <Folder Include="ScrumPokerTablePy\static\components\jquery\" />
+    <Folder Include="ScrumPokerTablePy\static\components\socketio\" />
     <Folder Include="ScrumPokerTablePy\static\components\polyfills\" />
     <Folder Include="ScrumPokerTablePy\static\components\qrcode\" />
     <Folder Include="ScrumPokerTablePy\static\components\ui-bootstrap\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
-    <None Include="scrum-desk-demo-test - Web Deploy.pubxml" />
     <None Include="scrum-desk-demo - Web Deploy.pubxml" />
+    <None Include="scrum-desk-demo-test - Web Deploy.pubxml" />
     <Content Include="ScrumPokerTablePy\static\app\about\about.html" />
     <Content Include="ScrumPokerTablePy\static\app\app.css" />
     <Content Include="ScrumPokerTablePy\static\app\app.js" />
@@ -953,6 +953,7 @@
     <Content Include="ScrumPokerTablePy\static\components\polyfills\strings.js" />
     <Content Include="ScrumPokerTablePy\static\components\qrcode\LICENSE.txt" />
     <Content Include="ScrumPokerTablePy\static\components\qrcode\qrcode.js" />
+    <Content Include="ScrumPokerTablePy\static\components\socketio\socket.io.js" />
     <Content Include="ScrumPokerTablePy\static\components\ui-bootstrap\LICENSE.txt" />
     <Content Include="ScrumPokerTablePy\static\components\ui-bootstrap\ui-bootstrap-tpls.js" />
     <Content Include="ScrumPokerTablePy\static\components\ui-bootstrap\ui-bootstrap-tpls.min.js" />

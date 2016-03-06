@@ -19,28 +19,25 @@
             return { "background-color": "#8f8" };
         }
 
-        var disposed = false;
-        $scope.$on("$destroy", function () { disposed = true; });
+        $scope.$on("$destroy", function() {
+            deskService.leave();
+        });
 
-        function updateDeskAsync() {
-            var defaultTimeout = 1000;
-            var timeout = $scope.desk ? 10 : null;
-            var modified = $scope.desk ? $scope.desk.modified : null;
-            deskService.get($scope.desk_id, modified, timeout).then(function(desk){
-                $scope.desk = desk;
-                var player = desk.players.filter(function(p){ return p.name === $scope.player_id.toLowerCase() })[0];
-                $scope.selected_card = player.card;
-                if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
+        deskService.join($scope.desk_id);
 
-            }, function(response){
-                if(response.status === 304){
-                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
-                }else{
-                    if (!disposed) $timeout(updateDeskAsync, defaultTimeout);
-                }
-            });
-        }
-        updateDeskAsync();
+        $scope.$on("desk", function (event, desk) {
+            console.log(event, desk);
+            $scope.desk = desk;
+            var player = desk.players.filter(function (p) { return p.name === $scope.player_id.toLowerCase() })[0];
+            $scope.selected_card = player.card;
+        });
+
+        deskService.get($scope.desk_id).then(function (desk) {
+            $scope.desk = desk;
+            var player = desk.players.filter(function (p) { return p.name === $scope.player_id.toLowerCase() })[0];
+            $scope.selected_card = player.card;
+        });
+
     }])
   ;
 })();

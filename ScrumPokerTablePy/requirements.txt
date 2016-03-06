@@ -1,5 +1,6 @@
 Flask<1
 Flask-SQLAlchemy
+Flask-SocketIO
 Flask-Restful
 SqlAlchemy_utils
 

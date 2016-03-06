@@ -2,35 +2,38 @@
   angular
     .module("ScrumPokerTable")
 
-    .factory("DeskPollingService", ["$http", "$timeout", "$q", function($http, $timeout, $q){
-        var poll = function(http, tick){
-           return http.then(function(r){
-                var deferred = $q.defer();
-                $timeout(function(){ deferred.resolve(r); }, tick);
-                return deferred.promise;
-            });
-        };
-
-        return{
-            poll: poll
-        };
-    }])
-
-    .factory("DeskService", ["$http", "$q", function($http, $q){
+    .factory("DeskService", ["$http", "$rootScope", function ($http, $rootScope) {
+        var socket = null;
         return {
-            get: function(desk_id, modified, timeout){
+            join: function (desk_id) {
+                if (socket) {
+                    socket.disconnect();
+                }
 
-                var config = {
-                    headers:{}
-                };
-                //if(timeout) {
-                //    config.headers["X-Polling-Timeout"] = timeout;
-                //    config.timeout = timeout * 1200;
-                //}
-                if(modified) config.headers["X-Modified"] = modified;
+                socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port + "/desks/" + desk_id);
+                socket.on("connect", function () {
+                    console.log("Connected to " + desk_id);
+                });
+                socket.on("message", function (msg) {
+                    console.log(msg);
+                    $http.get("api/desk/" + desk_id + "?rnd" + (new Date().getTime()))
+                        .then(function (response) {
+                            console.log(response.data);
+                            $rootScope.$broadcast("desk", response.data);
+                        });
+                });
+            },
 
+            leave: function () {
+                if (socket) {
+                    socket.disconnect();
+                    socket = null;
+                }
+            },
+
+            get: function(desk_id){
                 return $http
-                    .get("api/desk/" + desk_id + "?rnd" + (new Date().getTime()), config)
+                    .get("api/desk/" + desk_id + "?rnd" + (new Date().getTime()))
                     .then(function(response){
                         return response.data;
                     });
